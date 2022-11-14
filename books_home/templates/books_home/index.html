@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+    <style>
+        .bg-img{
+            width:100%;
+            height:600px;
+            background-image: url("{% static '/images/back.jpg' %}");
+            background-size: cover;
+            background-color:black ;
+            background-position: fixed;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        
+        .search{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #search{
+            width:650px;
+            height: 60px;
+            border:solid 1px rgb(6, 203, 218);
+            border-radius: 26px;
+            color:black;
+            text-align: center;
+        }
+
+        #search:hover{
+            border:solid 2.2px rgb(6,203,218);
+        }
+
+        .row{
+            display: flex;
+            justify-content: center;
+        }
+
+        #sub_btn{
+            width:89px;
+            height:54px;
+            border:solid 1px white;
+            border-radius: 20px;
+            color:black;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        #sub_btn:hover{
+            border:solid 1px rgb(6,203,218);
+            border-radius: 12px;
+            color:white;
+            background-color: rgb(6,203,218);  
+
+        }
+
+        .container{
+            margin-left:16px;
+        }
+
+        #book{
+            color:black;
+            
+        }
+        input:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+
+        .card-img-top {
+            width: 100%;
+            height: 40vh;
+            object-fit: cover;
+        }
+
+        h2{
+            color:black;
+            font-size: large;
+        }
+
+        #search{
+            background: url("https://img.icons8.com/nolan/64/search.png") no-repeat scroll 7px 7px ;
+            background-color: white;
+            color: black;
+            background-size: 50px 50px;
+            padding-left:30px;
+        }
+
+        #heading {
+            word-spacing: 6px;
+            font-size: 42px; 
+            color: white; 
+            text-transform: uppercase;
+            text-shadow: 0px 1px 0px #f2f2f2;
+            position: absolute;
+            margin-top: 100px;
+            text-align: center;
+            top: auto;
+            left: 32%;
+            font-family: 'Oswald', sans-serif;
+         }
+
+        
+        
+        
+    </style>
+
+    <head>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300&family=Nunito:wght@300&display=swap" rel="stylesheet">  
+    </head>
+        <div class="bg-img">
+            <h1 id="heading" style="color:white">Searching Books Got Easy</h1>
+            <div class="search">
+                
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="row">  
+                        <center>
+                            
+                            <input id="search" type="text" name="search" id="" placeholder="Search for a book....">
+                            <input type="submit" name="Search" value="search" id="sub_btn">
+                        </center>
+                    </div> 
+                </form>
+            </div>
+        </div>
+
+        <br><br>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header">
+                          Categories
+                        </div>
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><a href="{% url 'category' 'all' %}" >All</a></li>
+                          <li class="list-group-item"><a href="{% url 'category' 'social' %}">Social</a></li>
+                          <li class="list-group-item"><a href="{% url 'category' 'politics' %}">Politics</a></li>
+                          <li class="list-group-item"><a href="{% url 'category' 'fitness' %}">Fitness</a></li>
+                          <li class="list-group-item"><a href="{% url 'category' 'maths' %}">Maths</a></li>
+                          <li class="list-group-item"><a href="{% url 'category' 'programming' %}">Programming</a></li>
+                        </ul>
+                      </div>
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="row" style="margin-left: auto;margin-bottom: auto;">
+
+                    {% for book in books %}
+
+                        <div class="col-md-4  text-right" style="margin-bottom: 5vh;">
+                            <div class="card" >
+                                
+                                <img class="card-img-top" src="{{book.photo_main.url}}" alt="Card image cap">
+                                 
+                                
+                                <div class="card-body">
+                                  <h6 style="text-align:center;" class="card-text">{{book.title}}</h6><hr>
+                                  <p style="text-align:center;"><b style="color:rgb(29, 29, 253)">₹{{book.price | intcomma}}</b> | <a id="book" href="{% url 'show_book' book.id %}">View Book</a></p>
+                                </div>
+                              </div>
+                        </div>
+                        
+                    {% endfor %}
+
+                    {%if flag%}
+                        <h2>{{mes}}</h2>
+                    {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <br><br><br><br><br>
+    
+
+{% endblock %}

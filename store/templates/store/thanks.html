@@ -1,0 +1,91 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+<style>
+        
+    .cc{
+         padding:30px;
+         background-color: white;
+         border:solid 1px  #ff7b54;
+         border-radius: 6px;
+         width: 300px;
+         height: 250px;
+         
+
+     }
+     
+     a{
+         text-decoration: none;
+         color:white;
+     }
+     button{
+         border:solid 1px #1216fa;
+         padding: 6px;
+         border-radius: 3px;
+         width:80px;
+         height:40px;
+         background-color: #1216fa;
+         color:white;
+         width:100px;
+         
+     }
+     a:hover{
+         text-decoration: none;
+         color: white;
+     }
+     
+     
+     *{
+         font-family: 'Poppins', sans-serif;
+         
+     }
+     h1{
+        font-size: 36px;
+     }
+     h3{
+         font-size: 25px;
+     }
+     button{
+         cursor: pointer;
+     }
+
+     .table{
+         text-align: center;
+         width: 50%;
+     }
+</style>
+<body onload="func()">
+        <div class="container">
+            <div class="jumbotron">
+                <center><img src="{% static 'images/right.png'%}" width="50px" height="50px" alt=""><h1 style="color:rgb(31, 214, 31)">Order Placed Successfully</h1></center><br>
+              <center>  <h3>Thank You For your purchase</h3></center><br>
+              <center>
+              <table class="table">
+                <tbody>
+                  {% for item in items %}
+                 
+                    
+                      <tr>
+                        
+                        <td><img src="{{item.book.photo_main.url}}" width=40px height=40px alt=""></td>
+                        <td>{{item.book.title}}</td>
+                        <td>
+                            <form method="get" action="{{item.book.pdf.url}}">
+                                <button type="submit">Download</button>
+                             </form>
+                        </td>
+                      </tr>
+                      
+              
+                  {% endfor %}
+              </table>
+            </center>
+            <center><button><a href="{% url 'index' %}">Go Back</a></button></center>
+        </div>
+    </div>
+    </body>    
+<script>
+     
+</script>
+{% endblock %}
